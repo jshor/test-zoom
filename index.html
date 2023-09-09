@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+  <style type="text/css">
+  #obj {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    display: block;
+  }
+  </style>
+</head>
+
+<h1 id="info"></h1>
+<div id="obj"></div>
+
+<script>
+let zoom = 1
+let posX = 0
+let posY = 0
+
+document.addEventListener('wheel', $e => {
+  const obj = document.getElementById('obj')
+  const wheel = $e.wheelDelta < 0 ? -1 : 1
+  
+  if (posX === 0) posX = $e.x
+  if (posY === 0) posY = $e.y
+  
+  zoom = $e.deltaX ? zoom : (zoom + (wheel / 10))
+  
+  posX = posX - $e.deltaX
+  posY = posY - $e.deltaY
+  
+  obj.style.left = `${posX}px`
+  obj.style.top = `${posY}px`
+  obj.style.scale = zoom
+  
+  document
+    .getElementById('info')
+    .innerHTML = [
+      `ΔX: ${$e.deltaX}`,
+      `ΔY: ${$e.deltaY}`,
+      `ΔWheel: ${$e.wheelDelta}`,
+      `X: ${$e.x}`,
+      `Y: ${$e.y}`
+    ].join('<br />')
+})
+</script>
